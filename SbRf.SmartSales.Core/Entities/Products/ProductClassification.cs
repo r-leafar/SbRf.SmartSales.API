@@ -18,5 +18,6 @@ namespace SbRf.SmartSales.Core.Entity.Products
             this.Name = Name;
         }
         public string Name { get; set; }
+        public ICollection<Product> ProductList { get; set; }
     }
 }
