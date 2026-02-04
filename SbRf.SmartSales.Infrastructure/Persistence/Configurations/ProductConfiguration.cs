@@ -35,9 +35,10 @@ namespace SbRf.SmartSales.Infrastructure.Persistence.Configurations
                    .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(e => e.ProductClassification)
-               .WithMany()
-               .HasForeignKey(e => e.ProductClassification)
-               .OnDelete(DeleteBehavior.Restrict);
+                .WithMany(p => p.ProductList)
+                .HasForeignKey(e => e.ProductClassificationId)
+                .OnDelete(DeleteBehavior.Restrict);
+
         }
     }
 }

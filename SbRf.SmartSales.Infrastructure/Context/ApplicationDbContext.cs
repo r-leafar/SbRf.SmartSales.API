@@ -16,6 +16,8 @@ public class ApplicationDbContext : DbContext
     {
         modelBuilder.ApplyConfiguration(new ProductConfiguration());
         modelBuilder.ApplyConfiguration(new ProductParameterConfiguration());
+        modelBuilder.ApplyConfiguration(new ProductCostConfiguration());
+        modelBuilder.ApplyConfiguration(new ProductClassificationConfiguration());
     }
 
     public DbSet<Product> Product { get; set; }

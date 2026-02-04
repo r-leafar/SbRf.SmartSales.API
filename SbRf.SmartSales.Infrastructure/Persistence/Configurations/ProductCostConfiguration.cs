@@ -11,6 +11,12 @@ namespace SbRf.SmartSales.Infrastructure.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<ProductCost> builder)
         {
+            builder.HasKey(pc => new
+            {
+                pc.ProductId,
+                pc.ProductCostType,
+                pc.EndDate
+            });
         }
     }
 }
