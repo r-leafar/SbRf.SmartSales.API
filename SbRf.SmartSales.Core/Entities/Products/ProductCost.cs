@@ -26,7 +26,7 @@ namespace SbRf.SmartSales.Core.Entity.Products
         public EnumProductCost ProductCostType { get; set; }
         public decimal Value { get; set; }
         public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public DateTime? EndDate { get; set; }
 
     }
 }
