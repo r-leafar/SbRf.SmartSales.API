@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SbRf.SmartSales.Application\SbRf.SmartSales.Application.csproj" />
+    <ProjectReference Include="..\SbRf.SmartSales.Infrastructure\SbRf.SmartSales.Infrastructure.csproj" />
+    <ProjectReference Include="..\SbRf.SmartSales.Core\SbRf.SmartSales.Core.csproj" />
+  </ItemGroup>
+
+</Project>

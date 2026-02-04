@@ -1,0 +1,6 @@
+@SbRf.SmartSales.WebApi_HostAddress = http://localhost:5254
+
+GET {{SbRf.SmartSales.WebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

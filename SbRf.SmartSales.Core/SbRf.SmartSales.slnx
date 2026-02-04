@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/Tests/">
+    <Project Path="../SbRf.SmartSales.UnitTest.Application/SbRf.SmartSales.UnitTest.Application.csproj" Id="f4162455-3eb3-4864-a824-43d46b18fd44" />
+    <Project Path="../SbRf.SmartSales.UnitTest.Core/SbRf.SmartSales.UnitTest.Core.csproj" Id="493d4756-1488-4b9b-941e-799853773851" />
+  </Folder>
+  <Project Path="../SbRf.SmartSales.Application/SbRf.SmartSales.Application.csproj" Id="3462856e-678a-4780-bfd8-c62aa54535af" />
+  <Project Path="../SbRf.SmartSales.Infrastructure/SbRf.SmartSales.Infrastructure.csproj" Id="e6f92c58-6f72-4058-8b10-65798149f703" />
+  <Project Path="../SbRf.SmartSales.WebApi/SbRf.SmartSales.WebApi.csproj" Id="6b0fb8c4-334a-48c3-bbaa-d967365533be" />
+  <Project Path="SbRf.SmartSales.Core.csproj" />
+</Solution>
