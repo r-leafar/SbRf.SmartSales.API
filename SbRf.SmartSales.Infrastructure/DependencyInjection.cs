@@ -1,8 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using SbRf.SmartSales.Core.Interface.Repository;
+using SbRf.SmartSales.Core.Interfaces.Repository;
 using SbRf.SmartSales.Infrastructure.Context;
 using SbRf.SmartSales.Infrastructure.Options;
+using SbRf.SmartSales.Infrastructure.Repository;
 
 namespace SbRf.SmartSales.Infrastructure
 {
@@ -22,9 +25,9 @@ namespace SbRf.SmartSales.Infrastructure
                 .UseSnakeCaseNamingConvention();
             });
 
-            //services.AddScoped(typeof(IReadOnlyRepository<,>), typeof(ReadOnlyRepository<,>));
-            //services.AddScoped(typeof(IWriteOnlyRepository<,>), typeof(WriteOnlyRepository<,>));
-            //services.AddScoped<IStudentRepository, StudentRepository>();
+            services.AddScoped(typeof(IReadRepository<,>), typeof(ReadRepository<,>));
+            services.AddScoped(typeof(IWriteRepository<,>), typeof(WriteRepository<,>));
+            services.AddScoped<IProductRepository, ProductRepository>();
 
             return services;
         }

@@ -10,7 +10,7 @@ namespace SbRf.SmartSales.Core.Interface.Repository
     {
         public Task<TId> AddAsync(TEntity entity);
 
-        public Task<TId[]> AddAsync(params TEntity[] entity);
+        public Task AddAsync(params TEntity[] entity);
 
         public Task UpdateAsync(TEntity entity);
 
