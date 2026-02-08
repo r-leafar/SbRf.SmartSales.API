@@ -9,18 +9,24 @@ namespace SbRf.SmartSales.Core.Entity.Products
     public class ProductCost : IHistory
     {
         private ProductCost() { }
-        public ProductCost(int productId, EnumProductCost productCostType, decimal value, DateTime startDate, DateTime endDate)
+        public ProductCost(EnumProductCost productCostType, decimal value, DateTime startDate, DateTime? endDate)
         {
-            Ensure.IsGreaterThanZero(productId);
             Ensure.NotNull(startDate);
             Ensure.IsGreaterThanZero(value);
 
-            ProductId = productId;
             ProductCostType = productCostType;
             Value = value;
             StartDate = startDate;
             EndDate = endDate;
         }
+
+        public ProductCost(int productId, EnumProductCost productCostType, decimal value,DateTime startDate, DateTime? endDate)
+            : this(productCostType, value, startDate, endDate)
+        {
+            Ensure.IsGreaterThanZero(productId);
+            ProductId = productId;
+        }
+
         public int ProductId { get; set; }
         public Product Product { get; set; }
         public EnumProductCost ProductCostType { get; set; }

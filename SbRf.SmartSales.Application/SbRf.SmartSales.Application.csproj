@@ -10,4 +10,8 @@
     <ProjectReference Include="..\SbRf.SmartSales.Core\SbRf.SmartSales.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="UseCases\Response\" />
+  </ItemGroup>
+
 </Project>

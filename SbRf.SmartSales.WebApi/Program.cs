@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using SbRf.SmartSales.Infrastructure;
 using SbRf.SmartSales.Infrastructure.Options;
+using SbRf.SmartSales.WebApi.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,10 +21,6 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-app.MapGet("/weatherforecast", () => { 
-
-    return 5;
-})
-.WithName("GetWeatherForecast");
+app.MapGroup("/api/v1/products").MapProductEndpoints();
 
 app.Run();

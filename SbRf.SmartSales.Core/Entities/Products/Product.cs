@@ -12,7 +12,7 @@ namespace SbRf.SmartSales.Core.Entity.Products
 
         private Product() { }
 
-        public Product(string name, string description, ICollection<ProductCost> productCostList)
+        public Product(string name, string description, EnumUnitOfMeasure unitOfMeasureType, ICollection<ProductCost> productCostList)
         {
             Ensure.NotNullOrWhiteSpace(name);
             Ensure.NotNullOrWhiteSpace(description);
@@ -20,14 +20,15 @@ namespace SbRf.SmartSales.Core.Entity.Products
 
             Name = name;
             Description = description;
+            UnitOfMeasureType = unitOfMeasureType;
         }
         public string Name { get; set; }
         public string Description { get; set; }
         public ICollection<ProductCost> ProductCostList { get; set; }
         public ICollection<ProductParameter> ProductParameterList { get; set; }
-        public int ProductBrandId { get; set; }
+        public int? ProductBrandId { get; set; }
         public ProductBrand? ProductBrand { get; set; }
-        public string ProductClassificationId { get; set; }
+        public string? ProductClassificationId { get; set; }
         public ProductClassification? ProductClassification { get; set; }
         public EnumUnitOfMeasure UnitOfMeasureType { get; set; }
         public string? Location { get; set; }
