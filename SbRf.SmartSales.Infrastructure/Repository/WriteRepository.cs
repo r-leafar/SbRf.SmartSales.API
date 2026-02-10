@@ -29,7 +29,7 @@ namespace SbRf.SmartSales.Infrastructure.Repository
             }
             catch (Exception ex)
             {
-                throw new InfraestructureException("Error creating record.", ex);
+                throw new InfraestructureException("Error creating record.", ex.Message);
             }
         }
 
@@ -42,7 +42,7 @@ namespace SbRf.SmartSales.Infrastructure.Repository
             }
             catch (Exception ex)
             {
-                throw new InfraestructureException("Error creating record.", ex);
+                throw new InfraestructureException("Error creating record.", ex.Message);
             }
         }
 
@@ -55,7 +55,7 @@ namespace SbRf.SmartSales.Infrastructure.Repository
             }
             catch (Exception ex)
             {
-                throw new InfraestructureException("Delete operation failed.", ex);
+                throw new InfraestructureException("Delete operation failed.", ex.Message);
             }
         }
 
@@ -68,7 +68,7 @@ namespace SbRf.SmartSales.Infrastructure.Repository
             }
             catch (Exception ex)
             {
-                throw new InfraestructureException("Delete operation failed.", ex);
+                throw new InfraestructureException("Delete operation failed.", ex.Message);
             }
         }
 
@@ -81,7 +81,7 @@ namespace SbRf.SmartSales.Infrastructure.Repository
             }
             catch (Exception ex)
             {
-                throw new InfraestructureException("Update failed.", ex);
+                throw new InfraestructureException("Update failed.", ex.Message);
             }
         }
 
@@ -94,7 +94,7 @@ namespace SbRf.SmartSales.Infrastructure.Repository
             }
             catch (Exception ex)
             {
-                throw new InfraestructureException("Update failed.", ex);
+                throw new InfraestructureException("Update failed.", ex.Message);
             }
         }
     }
