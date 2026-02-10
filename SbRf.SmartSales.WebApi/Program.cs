@@ -1,7 +1,7 @@
-using Microsoft.Extensions.Configuration;
 using SbRf.SmartSales.Infrastructure;
 using SbRf.SmartSales.Infrastructure.Options;
 using SbRf.SmartSales.WebApi.Endpoints;
+using SbRf.SmartSales.WebApi.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOpenApi();
 
 builder.Services.Configure<DatabaseOptions>(builder.Configuration.GetSection("Database"));
+
+builder.Services.ConfigureJsonSerializer();
 
 builder.Services.AddInfrastructureDI();
 
