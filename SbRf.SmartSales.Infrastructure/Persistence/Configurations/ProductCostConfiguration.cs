@@ -22,7 +22,7 @@ namespace SbRf.SmartSales.Infrastructure.Persistence.Configurations
             { 
                 pc.ProductId,
                 pc.ProductCostType
-            }).HasFilter("[EndDate] IS NULL") 
+            }).HasFilter("end_date IS NULL") 
               .IsUnique();
 
             builder.HasQueryFilter(pc => pc.EndDate == null);
