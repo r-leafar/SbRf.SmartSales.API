@@ -13,6 +13,9 @@ namespace SbRf.SmartSales.Infrastructure.Persistence.Configurations
         public void Configure(EntityTypeBuilder<ProductParameter> builder)
         {
             builder.HasKey(pp => new { pp.ProductId, pp.ProductParameterType });
+
+            builder.HasQueryFilter(pp => pp.Product.DeletedAt == null);
+
         }
     }
 }
