@@ -39,6 +39,7 @@ namespace SbRf.SmartSales.Infrastructure.Persistence.Configurations
                 .HasForeignKey(e => e.ProductClassificationId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            builder.HasQueryFilter( p => p.DeletedAt == null);
         }
     }
 }

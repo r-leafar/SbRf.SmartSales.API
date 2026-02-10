@@ -7,7 +7,7 @@ using System.Text;
 
 namespace SbRf.SmartSales.Core.Entity.Products
 {
-    public class Product : BaseEntity<int>
+    public class Product : BaseEntity<int>,ISoftDeletable
     {
 
         private Product() { }
@@ -35,6 +35,7 @@ namespace SbRf.SmartSales.Core.Entity.Products
         public EnumUnitOfMeasure UnitOfMeasureType { get; set; }
         public string? Location { get; set; }
         public string? AdditionalInformation { get; set; }
+        public DateTime? DeletedAt { get; }
 
         private void ValidateProductCost(ICollection<ProductCost> list)
         {
