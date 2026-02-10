@@ -1,8 +1,6 @@
 ﻿using SbRf.SmartSales.Core.Entities;
+using SbRf.SmartSales.Core.Exceptions;
 using SbRf.SmartSales.Core.Share.Ensure;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SbRf.SmartSales.Core.Entity.Products
 {
@@ -34,5 +32,15 @@ namespace SbRf.SmartSales.Core.Entity.Products
         public DateTime StartDate { get; set; }
         public DateTime? EndDate { get; set; }
 
+        public void Close(DateTime endDate)
+        {
+            if (EndDate.HasValue)
+                throw new DomainException("ProductCost is already closed.");
+
+            if (endDate <= StartDate)
+                throw new DomainException("EndDate must be greater than StartDate.");
+
+            EndDate = endDate;
+        }
     }
 }
