@@ -26,8 +26,9 @@ namespace SbRf.SmartSales.Application.UseCases.Request
                name: dto.Name,
                description: dto.Description,
                unitOfMeasureType: dto.UnitOfMeasureType,
-               productCostList: dto.ProductCostList.ToEntity()
-               
+               productCostList: dto.ProductCostList.ToEntity(),
+               productParameterList: dto.ProductParameterList.ToEntity()
+
            );
 
             product.ProductBrandId = dto.ProductBrandId;

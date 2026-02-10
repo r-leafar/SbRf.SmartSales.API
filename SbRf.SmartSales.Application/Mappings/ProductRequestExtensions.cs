@@ -21,6 +21,15 @@ namespace SbRf.SmartSales.Application.Mappings
                             null))
                         .ToList();
         }
+        public static ICollection<ProductParameter> ToEntity(this ICollection<CreateProductParameterRequest> request)
+        {
+            if (request is null || request.Count == 0) { return new Collection<ProductParameter>(); }
+
+            return request.Select(item => new ProductParameter(
+                            item.ProductParameterType,
+                            item.Value))
+                        .ToList();
+        }
         public static ProductResponse ToResponse(this CreateProductRequest request, int IdProduto)
         {
             return new ProductResponse(IdProduto);

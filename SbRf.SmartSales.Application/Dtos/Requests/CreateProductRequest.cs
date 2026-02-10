@@ -13,6 +13,7 @@ namespace SbRf.SmartSales.Application.Dtos.Requests
             string? ProductClassificationId,
             EnumUnitOfMeasure UnitOfMeasureType,
             ICollection <CreateProductCostRequest> ProductCostList,
+            ICollection<CreateProductParameterRequest> ProductParameterList,
             string? Location,
             string? AdditionalInformation
         );
@@ -21,5 +22,10 @@ namespace SbRf.SmartSales.Application.Dtos.Requests
         (
             EnumProductCost ProductCostType,
             decimal Value
+        );
+    public record CreateProductParameterRequest
+        (
+            EnumProductParameter ProductParameterType,
+            bool Value
         );
 }

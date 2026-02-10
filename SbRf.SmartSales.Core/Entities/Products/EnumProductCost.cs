@@ -12,6 +12,6 @@ namespace SbRf.SmartSales.Core.Entity.Products
        Fees = 3,
        Taxes = 4,
        Other = 5,
-       Final_Cost = 99
+       FinalCost = 99
     }
 }

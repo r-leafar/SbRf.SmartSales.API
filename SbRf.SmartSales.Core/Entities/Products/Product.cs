@@ -12,7 +12,7 @@ namespace SbRf.SmartSales.Core.Entity.Products
 
         private Product() { }
 
-        public Product(string name, string description, EnumUnitOfMeasure unitOfMeasureType, ICollection<ProductCost> productCostList)
+        public Product(string name, string description, EnumUnitOfMeasure unitOfMeasureType, ICollection<ProductCost> productCostList, ICollection<ProductParameter> productParameterList)
         {
             Ensure.NotNullOrWhiteSpace(name);
             Ensure.NotNullOrWhiteSpace(description);
@@ -21,6 +21,8 @@ namespace SbRf.SmartSales.Core.Entity.Products
             Name = name;
             Description = description;
             UnitOfMeasureType = unitOfMeasureType;
+            ProductCostList = productCostList;
+            ProductParameterList = productParameterList;
         }
         public string Name { get; set; }
         public string Description { get; set; }
@@ -45,7 +47,7 @@ namespace SbRf.SmartSales.Core.Entity.Products
 
         private void ValidateRequiredProductCostTypes(ICollection<ProductCost> list)
         {
-            var requiredTypes = new[] { EnumProductCost.Unitary, EnumProductCost.Final_Cost };
+            var requiredTypes = new[] { EnumProductCost.Unitary, EnumProductCost.FinalCost };
 
             bool hasAllRequiredTypes = requiredTypes
                     .All(t => list.Any(c => c.ProductCostType == t));
@@ -53,7 +55,7 @@ namespace SbRf.SmartSales.Core.Entity.Products
             if (!hasAllRequiredTypes)
             {
                 throw new DomainException(
-                    $"The list must contain ProductCostType {nameof(EnumProductCost.Unitary)} and {nameof(EnumProductCost.Final_Cost)}.");
+                    $"The list must contain ProductCostType {nameof(EnumProductCost.Unitary)} and {nameof(EnumProductCost.FinalCost)}.");
             }
         }
 
