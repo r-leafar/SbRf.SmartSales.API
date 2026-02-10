@@ -15,8 +15,17 @@ namespace SbRf.SmartSales.Infrastructure.Persistence.Configurations
             {
                 pc.ProductId,
                 pc.ProductCostType,
-                pc.EndDate
+                pc.StartDate
             });
+
+            builder.HasIndex(pc => new
+            { 
+                pc.ProductId,
+                pc.ProductCostType
+            }).HasFilter("[EndDate] IS NULL") 
+              .IsUnique();
+
+            builder.HasQueryFilter(pc => pc.EndDate == null);
         }
     }
 }
