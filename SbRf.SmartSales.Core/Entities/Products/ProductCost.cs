@@ -42,5 +42,18 @@ namespace SbRf.SmartSales.Core.Entity.Products
 
             EndDate = endDate;
         }
+        public static void ValidateRequiredProductCostTypes(ICollection<ProductCost> list)
+        {
+            var requiredTypes = new[] { EnumProductCost.Unitary, EnumProductCost.FinalCost };
+
+            bool hasAllRequiredTypes = requiredTypes
+                    .All(t => list.Any(c => c.ProductCostType == t));
+
+            if (!hasAllRequiredTypes)
+            {
+                throw new DomainException(
+                    $"The list must contain ProductCostType {nameof(EnumProductCost.Unitary)} and {nameof(EnumProductCost.FinalCost)}.");
+            }
+        }
     }
 }

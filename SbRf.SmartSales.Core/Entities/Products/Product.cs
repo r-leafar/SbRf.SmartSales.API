@@ -2,6 +2,7 @@
 using SbRf.SmartSales.Core.Exceptions;
 using SbRf.SmartSales.Core.Share.Ensure;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
@@ -16,6 +17,7 @@ namespace SbRf.SmartSales.Core.Entity.Products
         {
             Ensure.NotNullOrWhiteSpace(name);
             Ensure.NotNullOrWhiteSpace(description);
+            Ensure.NoDuplicateValues(productParameterList, i => i.ProductParameterType);
             ValidateProductCost(productCostList);
 
             Name = name;
@@ -37,35 +39,10 @@ namespace SbRf.SmartSales.Core.Entity.Products
         public string? AdditionalInformation { get; set; }
         public DateTime? DeletedAt { get; }
 
-        private void ValidateProductCost(ICollection<ProductCost> list)
+        private void ValidateProductCost(ICollection<ProductCost> productCostList)
         {
-            Ensure.HasItens(list);
-
-            ValidateRequiredProductCostTypes(list);
-
-            ValidateNoDuplicateProductCostTypes(list);
-        }
-
-        private void ValidateRequiredProductCostTypes(ICollection<ProductCost> list)
-        {
-            var requiredTypes = new[] { EnumProductCost.Unitary, EnumProductCost.FinalCost };
-
-            bool hasAllRequiredTypes = requiredTypes
-                    .All(t => list.Any(c => c.ProductCostType == t));
-
-            if (!hasAllRequiredTypes)
-            {
-                throw new DomainException(
-                    $"The list must contain ProductCostType {nameof(EnumProductCost.Unitary)} and {nameof(EnumProductCost.FinalCost)}.");
-            }
-        }
-
-        private void ValidateNoDuplicateProductCostTypes(ICollection<ProductCost> list)
-        {
-            if (list.GroupBy(e => e.ProductCostType).Any(g => g.Count() > 1))
-            {
-                throw new DomainException("Duplicate ProductCostType found.");
-            }
+            Ensure.NoDuplicateValues(productCostList, e => e.ProductCostType);
+            ProductCost.ValidateRequiredProductCostTypes(productCostList);
         }
     }
 }
