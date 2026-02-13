@@ -6,19 +6,25 @@ using SbRf.SmartSales.Application.Mappings;
 
 namespace SbRf.SmartSales.WebApi.Endpoints
 {
-    public static class ProductEndpoints
+    public  class ProductEndpoints(ILogger<ProductEndpoints> _logger) : IEndpointDefinition
     {
-        public static RouteGroupBuilder MapProductEndpoints(this RouteGroupBuilder group)
+        public string BaseRoute => "/api/v1/products";
+        public string Tag => "Products";
+        
+        public void DefineEndpoints(IEndpointRouteBuilder app)
         {
+            var group = app.MapGroup(BaseRoute)
+                       .WithTags(Tag);
+
             group.MapPost("/", CreateProduct)
                  .WithName("CreateProduct")
                  .Produces<ProductResponse>(StatusCodes.Status201Created)
-                 .Produces(StatusCodes.Status400BadRequest);
-
-            return group;
+                 .Produces(StatusCodes.Status400BadRequest);        
         }
-        private static async Task<IResult> CreateProduct(CreateProductRequest product, IProductRepository repository)
+        private async Task<IResult> CreateProduct(CreateProductRequest product, IProductRepository repository)
         {
+            _logger.LogInformation("Creating product: {ProductName}", product.Name);
+
             var command = new CreateProduct(repository);
             var idProduct = await command.Handle(product);
             return Results.Created($"/products/{idProduct}", product.ToResponse(idProduct));
