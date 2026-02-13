@@ -28,7 +28,21 @@ services:
           - prometheus
         networks:
             - app-network
-            
+    cadvisor:
+        image: gcr.io/cadvisor/cadvisor:latest
+        container_name: cadvisor
+        restart: unless-stopped
+        ports:
+          - "8080:8080"
+        volumes:
+          - /:/rootfs:ro
+          - /var/run:/var/run:ro
+          - /sys:/sys:ro
+          - /var/lib/docker/:/var/lib/docker:ro
+          - /dev/disk/:/dev/disk:ro
+        networks:
+          - app-network
+          
     postgres:
         container_name: postgres-server
         command: postgres -c shared_preload_libraries=pg_stat_statements -c pg_stat_statements.track=all
@@ -39,7 +53,7 @@ services:
         ports:
             - 5432:5432
         volumes:
-            - postgres-data:/var/lib/postgresql
+            - postgres-data:/var/lib/postgresql/18/data
         image: postgres:18.1
         networks:
             - app-network

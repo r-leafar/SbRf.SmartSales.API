@@ -38,7 +38,7 @@ docker-compose up -d
 | **Postgres Exporter** | Scrapes SQL metrics and exposes them to Prometheus | 9187 |
 | **Prometheus** | Time-series database for metric storage | 9090 |
 | **Grafana** | Visualization and Alerting dashboard | 3000 |
-
+| **CAdvisor** | Scrapes container metrics and exposes them to Prometheus | 8080 |
 ---
 
 ## 📊 Dashboard Setup (ID: 9628)
@@ -51,11 +51,15 @@ We use the community-standard **PostgreSQL Database** dashboard.
 4. Select **Prometheus** as the data source.
 5. Click **Import**.
 
-**Key Metrics Tracked:**
+## 📊 Dashboard Setup (ID: 19908)
 
-* 🔴 **Slow Queries:** Top execution time and high-latency statements.
-* 🟡 **Index Hit Rate:** Efficiency of memory usage vs. disk I/O.
-* 🟢 **Active Connections:** Current sessions and potential locks.
+We use the community-standard **cAdvisor Docker Insights** dashboard.
+
+1. Login to **Grafana**.
+2. Navigate to **Dashboards** > **New** > **Import**.
+3. Enter ID `19908` and click **Load**.
+4. Select **Prometheus** as the data source.
+5. Click **Import**.
 
 ---
 
@@ -79,7 +83,11 @@ The `prometheus.yml` is configured to pull data from the exporter every 15 secon
 scrape_configs:
   - job_name: 'postgres'
     static_configs:
-      - targets: ['postgres-exporter:9187']
+      - targets: ['postgres-exporter:9187']      
+
+  - job_name: 'cadvisor'
+    static_configs:
+      - targets: ['cadvisor:8080']
 
 ```
 
@@ -102,5 +110,3 @@ This stack is designed to be easily expanded:
 * **Connection Refused?** Check if the `POSTGRES_DB` name in the `.env` or `docker-compose` matches the `DATA_SOURCE_NAME` in the exporter.
 
 ---
-
-**Would you like me to add a specific section for Environment Variables or a Troubleshooting guide for common Docker networking issues?**
