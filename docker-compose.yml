@@ -3,13 +3,28 @@ services:
         image: prometheuscommunity/postgres-exporter
         container_name: postgres_exporter
         environment:
-          DATA_SOURCE_NAME: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres-server:5432/postgres?sslmode=disable"
+          DATA_SOURCE_NAME: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres-server:POSTGRES_PORT/postgres?sslmode=disable"
         depends_on:
           - postgres
         networks:
             - app-network
             
-
+    sbrf-webapi:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: sbrf-webapi
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+            - ASPNETCORE_HTTP_PORTS=8081
+            - Database__URL=Host=${POSTGRES_SERVER};Port=${POSTGRES_PORT};Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
+        ports:
+            - "8081:8081"
+        networks:
+            - app-network
+        depends_on:
+            - postgres        
+  
     loki:
         image: grafana/loki:3.5.10
         ports:
