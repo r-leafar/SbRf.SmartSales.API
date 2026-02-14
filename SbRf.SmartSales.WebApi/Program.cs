@@ -6,15 +6,42 @@ using SbRf.SmartSales.WebApi.Extensions;
 using Serilog;
 using Serilog.Sinks.Grafana.Loki;
 
+void showInfos(WebApplicationBuilder builder)
+{
+    var loggerOptions = builder.Configuration.GetSection("Logger").Get<LoggerOptions>();
+    var databaseOptions = builder.Configuration.GetSection("Database").Get<DatabaseOptions>();
+
+    Console.WriteLine($"Logger: {loggerOptions.URI}");
+    Console.WriteLine($"Database: {databaseOptions.URL}");
+}
+
+void setupLogger(WebApplicationBuilder builder)
+{
+    var loggerOptions = builder.Configuration.GetSection("Logger").Get<LoggerOptions>();
+
+    Log.Logger = new LoggerConfiguration()
+        .Enrich.FromLogContext()
+        .Enrich.WithProperty("app","sbrf-smartsales-webapi")
+        .WriteTo.Console()
+        .WriteTo.GrafanaLoki(loggerOptions.URI, new[]
+        { 
+            new LokiLabel { Key = "app", Value = "sbrf-smartsales-webapi" }
+        })
+        .CreateLogger();
+
+    Serilog.Debugging.SelfLog.Enable(msg => Console.WriteLine($"[SERILOG ERROR] {msg}"));
+
+    builder.Host.UseSerilog();
+}
+
 var builder = WebApplication.CreateBuilder(args);
 
-Log.Logger = new LoggerConfiguration()
-    .Enrich.FromLogContext()
-    .WriteTo.Console()
-    .WriteTo.GrafanaLoki("http://localhost:3100")
-    .CreateLogger();
+builder.Services.Configure<DatabaseOptions>(builder.Configuration.GetSection("Database"));
+builder.Services.Configure<LoggerOptions>(builder.Configuration.GetSection("Logger"));
 
-builder.Host.UseSerilog();
+showInfos(builder);
+
+setupLogger(builder);
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
@@ -29,7 +56,6 @@ builder.Services.AddProblemDetails (c =>{
 
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
-builder.Services.Configure<DatabaseOptions>(builder.Configuration.GetSection("Database"));
 
 builder.Services.ConfigureJsonSerializer();
 
