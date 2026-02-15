@@ -5,6 +5,7 @@ logging {
   level = "debug"
 }
 
+//postgres
 prometheus.exporter.postgres "default" {
   data_source_names = [env("POSTGRES_DSN")]
   enabled_collectors = ["stat_statements"]
@@ -24,7 +25,7 @@ prometheus.scrape "postgres" {
   scrape_interval = "2s"
   scrape_timeout = "2s"
 }
-
+//cadvisor
 prometheus.scrape "cadvisor" {
   targets = [{
     __address__ = "cadvisor:8080",
@@ -38,6 +39,7 @@ prometheus.remote_write "default" {
   }
 }
 
+//loki
 loki.source.api "app_receiver" {
   http {
     listen_address = "0.0.0.0"
@@ -50,4 +52,39 @@ loki.write "default" {
   endpoint {
     url = "http://loki:3100/loki/api/v1/push"
   }
+}
+
+// recebe logs, traces e métricas via OTLP
+otelcol.receiver.otlp "default" {
+  grpc {
+    endpoint  = "0.0.0.0:4317"
+  }
+  http {
+    endpoint  = "0.0.0.0:4318"
+  }
+  output {
+    logs    = [otelcol.exporter.loki.default.input]
+    traces  = [otelcol.exporter.otlp.tempo.input]
+    metrics = [otelcol.exporter.prometheus.default.input]
+  }
+}
+
+// logs -> Loki
+otelcol.exporter.loki "default" {
+  forward_to = [loki.write.default.receiver]
+}
+
+// traces -> Tempo (se tiver)
+otelcol.exporter.otlp "tempo" {
+  client {
+    endpoint = "tempo:4317"
+    tls {
+      insecure = true
+    }
+  }
+}
+
+// métricas -> Prometheus
+otelcol.exporter.prometheus "default" {
+  forward_to = [prometheus.remote_write.default.receiver]
 }

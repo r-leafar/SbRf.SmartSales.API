@@ -8,7 +8,7 @@ services:
             - ASPNETCORE_ENVIRONMENT=Development
             - ASPNETCORE_HTTP_PORTS=8081
             - Database__ConnectionString=Host=${POSTGRES_SERVER};Port=${POSTGRES_PORT};Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
-            - Logger__URI=http://alloy:3500/loki/api/v1/push
+            - Logger__URI=http://alloy:4317
         ports:
             - "8081:8081"
         networks:
@@ -16,13 +16,25 @@ services:
         depends_on:
             - postgres  
             - loki
+    tempo:
+        container_name: tempo
+        image: grafana/tempo:latest
+        command: ["-config.file=/etc/tempo/tempo.yml"]
+        volumes:
+          - ./tempo.yml:/etc/tempo/tempo.yml
+        ports:
+          - "3200:3200"   # UI / query         
+        networks:
+          - app-network
+
     alloy:
         container_name: alloy
         image: grafana/alloy:v1.13.1
         environment:
             - POSTGRES_DSN=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres-server:${POSTGRES_PORT}/postgres?sslmode=disable
         ports:
-             - "3500:3500"
+             - "4317:4317"  # OTLP gRPC
+             - "4318:4318"  # OTLP HTTP
              - "12345:12345"
         volumes:
          - "./alloy:/etc/alloy"
