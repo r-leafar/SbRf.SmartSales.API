@@ -31,7 +31,7 @@ services:
         container_name: alloy
         image: grafana/alloy:v1.13.1
         environment:
-            - POSTGRES_DSN=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres-server:${POSTGRES_PORT}/postgres?sslmode=disable
+            - POSTGRES_DSN=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres-server:${POSTGRES_PORT}/${POSTGRES_DB}?sslmode=disable
         ports:
              - "4317:4317"  # OTLP gRPC
              - "4318:4318"  # OTLP HTTP
