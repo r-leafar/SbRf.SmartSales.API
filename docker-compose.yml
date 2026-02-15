@@ -17,8 +17,8 @@ services:
         environment:
             - ASPNETCORE_ENVIRONMENT=Development
             - ASPNETCORE_HTTP_PORTS=8081
-            - Database__URL=Host=${POSTGRES_SERVER};Port=${POSTGRES_PORT};Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
-            - Logger__URI=http://loki:3100
+            - Database__ConnectionString=Host=${POSTGRES_SERVER};Port=${POSTGRES_PORT};Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
+            - Logger__URI=http://alloy:3500/loki/api/v1/push
         ports:
             - "8081:8081"
         networks:
@@ -26,6 +26,21 @@ services:
         depends_on:
             - postgres  
             - loki
+    alloy:
+        image: grafana/alloy:v1.13.1
+        ports:
+             - "3500:3500"
+             - "12345:12345"
+        volumes:
+         - "./alloy:/etc/alloy"
+        command: [
+          "run",
+          "--server.http.listen-addr=0.0.0.0:12345",
+          "--stability.level=experimental",
+          "/etc/alloy/config.alloy",
+        ]
+        networks:
+        - app-network
   
     loki:
         container_name: loki
@@ -39,7 +54,10 @@ services:
             - app-network
           
     prometheus:
-        image: prom/prometheus
+        container_name: prometheus
+        image: prom/prometheus:v3.5.1
+        command:
+          - --web.enable-remote-write-receiver
         volumes:
           - ./prometheus.yml:/etc/prometheus/prometheus.yml
         ports:
