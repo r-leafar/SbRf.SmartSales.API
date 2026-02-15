@@ -46,7 +46,7 @@ namespace SbRf.SmartSales.Infrastructure
         }
         private static string BuildConnectionString(DatabaseOptions opt)
         {
-            return opt.URL ?? $"Host={opt.Host};Port={opt.Port};Database={opt.Database};Username={opt.Username};Password={opt.Password};";
+            return opt.ConnectionString ?? $"Host={opt.Host};Port={opt.Port};Database={opt.Database};Username={opt.Username};Password={opt.Password};";
         }
     }
 }

@@ -11,7 +11,7 @@ namespace SbRf.SmartSales.Infrastructure.Options
         public string? Database { get; set; } = "postgres";
         public string? Username { get; set; } = "postgres";
         public string? Password { get; set; } = "postgres";
-        public string? URL { get; set; } 
+        public string? ConnectionString { get; set; } 
     }
 
 }

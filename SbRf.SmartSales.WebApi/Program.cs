@@ -10,9 +10,10 @@ void showInfos(WebApplicationBuilder builder)
 {
     var loggerOptions = builder.Configuration.GetSection("Logger").Get<LoggerOptions>();
     var databaseOptions = builder.Configuration.GetSection("Database").Get<DatabaseOptions>();
-
+    Console.WriteLine();
     Console.WriteLine($"Logger: {loggerOptions.URI}");
-    Console.WriteLine($"Database: {databaseOptions.URL}");
+    Console.WriteLine($"Database: {databaseOptions.ConnectionString}");
+    Console.WriteLine();
 }
 
 void setupLogger(WebApplicationBuilder builder)
@@ -20,6 +21,7 @@ void setupLogger(WebApplicationBuilder builder)
     var loggerOptions = builder.Configuration.GetSection("Logger").Get<LoggerOptions>();
 
     Log.Logger = new LoggerConfiguration()
+        .ReadFrom.Configuration(builder.Configuration)
         .Enrich.FromLogContext()
         .Enrich.WithProperty("app","sbrf-smartsales-webapi")
         .WriteTo.Console()
@@ -28,8 +30,6 @@ void setupLogger(WebApplicationBuilder builder)
             new LokiLabel { Key = "app", Value = "sbrf-smartsales-webapi" }
         })
         .CreateLogger();
-
-    Serilog.Debugging.SelfLog.Enable(msg => Console.WriteLine($"[SERILOG ERROR] {msg}"));
 
     builder.Host.UseSerilog();
 }
