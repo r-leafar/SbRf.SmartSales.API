@@ -1,14 +1,4 @@
-services:
-    postgres-exporter:
-        image: prometheuscommunity/postgres-exporter
-        container_name: postgres_exporter
-        environment:
-          DATA_SOURCE_NAME: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres-server:POSTGRES_PORT/postgres?sslmode=disable"
-        depends_on:
-          - postgres
-        networks:
-            - app-network
-            
+services:           
     sbrf-webapi:
         build:
             context: .
@@ -27,7 +17,10 @@ services:
             - postgres  
             - loki
     alloy:
+        container_name: alloy
         image: grafana/alloy:v1.13.1
+        environment:
+            - POSTGRES_DSN=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres-server:${POSTGRES_PORT}/postgres?sslmode=disable
         ports:
              - "3500:3500"
              - "12345:12345"
@@ -57,6 +50,7 @@ services:
         container_name: prometheus
         image: prom/prometheus:v3.5.1
         command:
+          - --config.file=/etc/prometheus/prometheus.yml
           - --web.enable-remote-write-receiver
         volumes:
           - ./prometheus.yml:/etc/prometheus/prometheus.yml
